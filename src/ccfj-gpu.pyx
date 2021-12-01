@@ -287,6 +287,13 @@ def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num=-1):
         outi = fhr(ufi,r,c,f,fstride,itype) + fhi(ufr,r,c,f,fstride,itype)
         out = np.sqrt(outr**2+outi**2)
         #out = outi
+    elif func == 4:
+        outr = fhr(ufr,r,c,f,fstride,itype) - fhi(ufi,r,c,f,fstride,itype)
+        outi = fhr(ufi,r,c,f,fstride,itype) + fhi(ufr,r,c,f,fstride,itype)
+        for i in range(len(f)):
+            outr[:,i] = outr[:,i]/max(np.abs(outr[:,i]))
+            outi[:,i] = outi[:,i]/max(np.abs(outi[:,i]))
+        return outr,outi
     else:
         print('set func as 0 for Bessel function 1 for Hankel function')
         return 0
@@ -304,10 +311,17 @@ def MWFJ(u,r,c,f,Fs,nwin,winl,winr,
     nr = len(r)
     npts = len(u[0])
     out = np.zeros([nwin,len(c),len(f)])
+    outi = np.zeros_like(out)
     for i in range(0,nwin):
         u0 = np.zeros([nr,npts])
         for j  in range(nr):
             tmp = win(npts,Fs,winl[i,j],winr[i,j],taper)
             u0[j,:] = u[j,:]*tmp
-        out[i,:,:] = fj_earthquake(u0,r,c,f,fstride=fstride,itype=itype,func = func,num=num)
-    return out
+        if func == 4:
+            out[i,:,:],outi[i,:,:] = fj_earthquake(u0,r,c,f,fstride=fstride,itype=itype,func = func,num=num)
+        else:
+            out[i,:,:] = fj_earthquake(u0,r,c,f,fstride=fstride,itype=itype,func = func,num=num)
+    if func == 4:
+        return out,outi
+    else:
+        return out
