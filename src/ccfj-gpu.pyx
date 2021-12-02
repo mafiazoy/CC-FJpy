@@ -275,7 +275,7 @@ def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num=-1):
     r = r[indx]
     u1 = u[indx]
     uf = np.fft.rfft(u1)
-    uf = uf[:,0:len(f)*fstride:fstride]
+    uf = uf[:,0:len(f)*fstride]
     ufr = np.real(uf)
     ufi = np.imag(uf)
     if func == 0:
