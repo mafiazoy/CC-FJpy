@@ -222,8 +222,8 @@ def fj_noise(uf,r,c,f,
     else:
         print('set func as 0 for Bessel function 1 for Hankel function')
         return 0
-    for i in range(len(f)):
-        out[:,i] = out[:,i]/max(np.abs(out[:,i]))
+    # for i in range(len(f)):
+    #     out[:,i] = out[:,i]/max(np.abs(out[:,i]))
     return out
 
 def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num=20):
@@ -245,8 +245,8 @@ def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num=20):
     else:
         print('set func as 0 for Bessel function 1 for Hankel function')
         return 0
-    for i in range(len(f)):
-        out[:,i] = out[:,i]/max(np.abs(out[:,i]))
+    # for i in range(len(f)):
+    #     out[:,i] = out[:,i]/max(np.abs(out[:,i]))
     return out
 
 def MWFJ(u,r,c,f,Fs,nwin,winl,winr,
